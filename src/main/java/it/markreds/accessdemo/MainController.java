@@ -1,8 +1,5 @@
 package it.markreds.accessdemo;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,14 +9,12 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 public class MainController {
-    private static final Logger LOG = LoggerFactory.getLogger(MainController.class);
     private final AtomicLong counter = new AtomicLong();
     private final DoorRepository doorRepo;
     private final PersonRepository personRepo;
     private final EventLogRepository eventRepo;
 
     public record Permission(long id, Date timestamp, boolean allowed, int workTime) { }
-    public record Pippo(long id, Date timestamp, int status) { }
 
     public MainController(DoorRepository doorRepo, PersonRepository personRepo, EventLogRepository eventRepo) {
         this.doorRepo = doorRepo;
@@ -64,7 +59,10 @@ public class MainController {
             throw new DoorNotFoundException(macAddress);
         }
 
-        EventLog eventLog = new EventLog(new Date(), state > 0 ? EventLog.ItemType.DOOR_OPEN : EventLog.ItemType.DOOR_CLOSE, door);
+        door.setOpen(state > 0);
+        doorRepo.save(door);
+
+        EventLog eventLog = new EventLog(new Date(), door.isOpen() ? EventLog.ItemType.DOOR_OPEN : EventLog.ItemType.DOOR_CLOSE, door);
         eventRepo.save(eventLog);
 
         return eventLog;

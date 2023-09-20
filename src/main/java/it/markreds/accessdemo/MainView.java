@@ -80,6 +80,7 @@ public class MainView extends VerticalLayout {
         EventLogDataProvider dataProvider = new EventLogDataProvider(all);
         filterDataProvider = dataProvider.withConfigurableFilter();
         grid.setItems(filterDataProvider);
+        grid.scrollToEnd();
         count = all.size();
     }
 

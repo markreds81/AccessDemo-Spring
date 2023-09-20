@@ -1,8 +1,6 @@
 package it.markreds.accessdemo;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
@@ -13,8 +11,11 @@ public class Door {
     @GeneratedValue
     private Long id;
     private String displayName;
+    @Column(unique = true)
     private String macAddress;
     private int workTime;
+    @Transient
+    private boolean open;
 
     public Door() { }
 
@@ -22,9 +23,10 @@ public class Door {
         this.displayName = displayName;
     }
 
-    public Door(String displayName, String macAddress) {
+    public Door(String displayName, String macAddress, int workTime) {
         this.displayName = displayName;
         this.macAddress = macAddress;
+        this.workTime = workTime;
     }
 
     @Override
@@ -75,5 +77,13 @@ public class Door {
 
     public void setWorkTime(int workTime) {
         this.workTime = workTime;
+    }
+
+    public boolean isOpen() {
+        return open;
+    }
+
+    public void setOpen(boolean open) {
+        this.open = open;
     }
 }

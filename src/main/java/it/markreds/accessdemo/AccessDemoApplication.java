@@ -15,20 +15,23 @@ public class AccessDemoApplication {
         SpringApplication.run(AccessDemoApplication.class, args);
     }
 
-//    @Bean
-//    public CommandLineRunner loadUsers(PersonRepository repository) {
-//        return (args -> {
-//            LOG.info("Preloading " + repository.save(new Person("Marco", "Rossi")));
-//            LOG.info("Preloading " + repository.save(new Person("Elisa", "Neri")));
-//        });
-//    }
-
-//    @Bean
-//    public CommandLineRunner loadDoors(DoorRepository repository) {
-//        return (args -> {
-//            LOG.info("Preloading " + repository.save(new Door("Ingresso principale", "00AAA")));
-//            LOG.info("Preloading " + repository.save(new Door("Serranda", "DD240930")));
-//        });
-//    }
+    @Bean
+    public CommandLineRunner populateDoors(DoorRepository repository) {
+        return (args -> {
+            if (repository.count() == 0) {
+                LOG.info("Preloading " + repository.save(new Door("Ingresso principale", "B0BE8349D36E", 2)));
+                LOG.info("Preloading " + repository.save(new Door("Serranda", "368ABCF07480", 5)));
+            }
+        });
+    }
+    @Bean
+    public CommandLineRunner populateUsers(PersonRepository repository) {
+        return (args -> {
+            if (repository.count() == 0) {
+                LOG.info("Preloading " + repository.save(new Person("Marco", "Rossi", "B177B700A2000000")));
+                LOG.info("Preloading " + repository.save(new Person("Elisa", "Neri", "9340D7008F000000")));
+            }
+        });
+    }
 
 }

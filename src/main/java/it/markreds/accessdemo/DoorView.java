@@ -36,7 +36,7 @@ public class DoorView extends VerticalLayout {
 
         grid.setHeight("300px");
         grid.setColumns("id", "displayName", "macAddress", "workTime");
-        grid.getColumnByKey("id").setWidth("50px").setFlexGrow(0);
+        grid.getColumnByKey("id").setWidth("150px").setFlexGrow(0);
 
         filter.setPlaceholder("Filter by name");
         filter.setValueChangeMode(ValueChangeMode.LAZY);

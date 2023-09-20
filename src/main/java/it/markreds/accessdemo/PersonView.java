@@ -2,14 +2,21 @@ package it.markreds.accessdemo;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.provider.DataKeyMapper;
+import com.vaadin.flow.data.renderer.Renderer;
+import com.vaadin.flow.data.renderer.Rendering;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.util.StringUtils;
+
+import java.util.Comparator;
 
 @Route(value = "people", layout = MainLayout.class)
 @PageTitle("People | Access Demo")
@@ -35,8 +42,22 @@ public class PersonView extends VerticalLayout {
         add(actions, grid, editor);
 
         grid.setHeight("300px");
-        grid.setColumns("id", "firstName", "lastName", "keyCode", "enabled");
-        grid.getColumnByKey("id").setWidth("50px").setFlexGrow(0);
+        grid.setColumns("id", "firstName", "lastName", "keyCode");
+        grid.getColumnByKey("id").setWidth("150px").setFlexGrow(0);
+        grid.addComponentColumn((item) -> {
+            Icon icon;
+            if (item.isEnabled()) {
+                icon = VaadinIcon.CHECK.create();
+                icon.setColor("green");
+            } else {
+                icon = VaadinIcon.CLOSE.create();
+                icon.setColor("red");
+            }
+            return icon;
+        })
+                .setKey("enabled")
+                .setHeader("Enabled")
+                .setComparator(Comparator.comparing(Person::isEnabled));
 
         filter.setPlaceholder("Filter by name");
         filter.setValueChangeMode(ValueChangeMode.LAZY);

@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.*;
 
@@ -18,9 +20,11 @@ public class EventLog {
     private ItemType itemType;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Door door;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Person person;
 
     public EventLog() { }
