@@ -1,0 +1,2 @@
+#!/bin/bash
+curl 'localhost:8080/api/v1/can-open?door=368ABCF07480&keycode=9340D7008F000000'
