@@ -1,5 +1,8 @@
-package it.markreds.accessdemo;
+package it.markreds.accessdemo.controller;
 
+import it.markreds.accessdemo.domain.Door;
+import it.markreds.accessdemo.exception.DoorNotFoundException;
+import it.markreds.accessdemo.repository.DoorRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

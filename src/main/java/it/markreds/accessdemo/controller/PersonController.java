@@ -1,5 +1,8 @@
-package it.markreds.accessdemo;
+package it.markreds.accessdemo.controller;
 
+import it.markreds.accessdemo.domain.Person;
+import it.markreds.accessdemo.exception.PersonNotFoundException;
+import it.markreds.accessdemo.repository.PersonRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

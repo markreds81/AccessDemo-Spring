@@ -1,5 +1,13 @@
-package it.markreds.accessdemo;
+package it.markreds.accessdemo.controller;
 
+import it.markreds.accessdemo.domain.Door;
+import it.markreds.accessdemo.domain.EventLog;
+import it.markreds.accessdemo.domain.Person;
+import it.markreds.accessdemo.exception.DoorNotFoundException;
+import it.markreds.accessdemo.exception.PersonNotFoundException;
+import it.markreds.accessdemo.repository.DoorRepository;
+import it.markreds.accessdemo.repository.EventLogRepository;
+import it.markreds.accessdemo.repository.PersonRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;

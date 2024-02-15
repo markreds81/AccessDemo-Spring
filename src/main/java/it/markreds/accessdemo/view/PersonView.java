@@ -1,4 +1,4 @@
-package it.markreds.accessdemo;
+package it.markreds.accessdemo.view;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
@@ -7,13 +7,13 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.provider.DataKeyMapper;
-import com.vaadin.flow.data.renderer.Renderer;
-import com.vaadin.flow.data.renderer.Rendering;
 import com.vaadin.flow.data.value.ValueChangeMode;
-import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import it.markreds.accessdemo.domain.Person;
+import it.markreds.accessdemo.repository.PersonRepository;
+import it.markreds.accessdemo.view.MainLayout;
+import it.markreds.accessdemo.view.PersonEditor;
 import org.springframework.util.StringUtils;
 
 import java.util.Comparator;

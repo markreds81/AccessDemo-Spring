@@ -1,4 +1,4 @@
-package it.markreds.accessdemo;
+package it.markreds.accessdemo.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

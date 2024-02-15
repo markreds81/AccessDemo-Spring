@@ -1,4 +1,4 @@
-package it.markreds.accessdemo;
+package it.markreds.accessdemo.view;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
@@ -9,6 +9,8 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import it.markreds.accessdemo.domain.Door;
+import it.markreds.accessdemo.repository.DoorRepository;
 import org.springframework.util.StringUtils;
 
 @Route(value = "doors", layout = MainLayout.class)

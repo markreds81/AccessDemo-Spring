@@ -1,5 +1,9 @@
 package it.markreds.accessdemo;
 
+import it.markreds.accessdemo.domain.Door;
+import it.markreds.accessdemo.domain.Person;
+import it.markreds.accessdemo.repository.DoorRepository;
+import it.markreds.accessdemo.repository.PersonRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;

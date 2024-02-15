@@ -1,4 +1,4 @@
-package it.markreds.accessdemo;
+package it.markreds.accessdemo.view;
 
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.PollEvent;
@@ -14,6 +14,8 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import it.markreds.accessdemo.domain.EventLog;
+import it.markreds.accessdemo.repository.EventLogRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
