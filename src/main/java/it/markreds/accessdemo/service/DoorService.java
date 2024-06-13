@@ -1,39 +1,64 @@
-package it.markreds.accessdemo.controller;
+package it.markreds.accessdemo.service;
 
 import it.markreds.accessdemo.domain.Door;
 import it.markreds.accessdemo.domain.EventLog;
+import it.markreds.accessdemo.domain.Permission;
 import it.markreds.accessdemo.domain.Person;
 import it.markreds.accessdemo.exception.DoorNotFoundException;
 import it.markreds.accessdemo.exception.PersonNotFoundException;
 import it.markreds.accessdemo.repository.DoorRepository;
 import it.markreds.accessdemo.repository.EventLogRepository;
 import it.markreds.accessdemo.repository.PersonRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
-@RestController
-public class MainController {
+@Service
+public class DoorService {
     private final AtomicLong counter = new AtomicLong();
     private final DoorRepository doorRepo;
     private final PersonRepository personRepo;
     private final EventLogRepository eventRepo;
 
-    public record Permission(long id, Date timestamp, boolean allowed, int workTime) { }
-
-    public MainController(DoorRepository doorRepo, PersonRepository personRepo, EventLogRepository eventRepo) {
+    public DoorService(DoorRepository doorRepo, PersonRepository personRepo, EventLogRepository eventRepo) {
         this.doorRepo = doorRepo;
         this.personRepo = personRepo;
         this.eventRepo = eventRepo;
     }
 
-    @GetMapping("/api/v1/can-open")
-    public Permission openingRequest(
-            @RequestParam(value = "door") String macAddress,
-            @RequestParam(value = "keycode") String keyCode) {
+    public List<Door> findAll() {
+        return doorRepo.findAll();
+    }
+
+    public Door findOne(Long id) {
+        return doorRepo.findById(id).orElseThrow(() -> new DoorNotFoundException(id));
+    }
+
+    public Door create(Door door) {
+        return doorRepo.save(door);
+    }
+
+    public Door upsert(Door door, Long id) {
+        return doorRepo.findById(id)
+                .map(target -> {
+                    target.setDisplayName(door.getDisplayName());
+                    target.setMacAddress(door.getMacAddress());
+                    target.setWorkTime(door.getWorkTime());
+                    return doorRepo.save(target);
+                })
+                .orElseGet(() -> {
+                    door.setId(id);
+                    return doorRepo.save(door);
+                });
+    }
+
+    public void delete(Long id) {
+        doorRepo.deleteById(id);
+    }
+
+    public Permission openingRequest(String macAddress, String keyCode) {
         Door door = doorRepo.findByMacAddressEquals(macAddress);
         if (door == null) {
             eventRepo.save(EventLog.doorNotFound());
@@ -57,10 +82,7 @@ public class MainController {
         return new Permission(counter.incrementAndGet(), new Date(), person.isEnabled(), door.getWorkTime());
     }
 
-    @GetMapping("/api/v1/state-changed")
-    public EventLog stateChanged(
-            @RequestParam(value = "door") String macAddress,
-            @RequestParam(value = "open") int state) {
+    public EventLog stateChanged(String macAddress, int state) {
         Door door = doorRepo.findByMacAddressEquals(macAddress);
         if (door == null) {
             eventRepo.save(EventLog.doorNotFound());
