@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Cors Test</title>
+</head>
+<body>
+<h1>Opening request demo</h1>
+<button onclick="refreshData()">Open Door</button>
+<h5>Response</h5>
+<table>
+	<tr><th>ID:</th><td id="event-id"></td></tr>
+	<tr><th>Time:</th><td id="event-time"></td></tr>
+	<tr><th>Allowed:</th><td id="allowed"></td></tr>
+	<tr><th>Work time:</th><td id="work-time"></td></tr>
+</table>
+<script type="text/javascript">
+	function refreshData() {
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				var json = JSON.parse(this.responseText);
+				var cell;
+				
+				cell = document.getElementById("event-id");
+				cell.innerHTML = json.id;
+				
+				cell = document.getElementById("event-time");
+				cell.innerHTML = json.timestamp;
+				
+				cell = document.getElementById("allowed");
+				cell.innerHTML = json.allowed;
+				
+				cell = document.getElementById("work-time");
+				cell.innerHTML = json.workTime;
+			}
+		};
+		xmlhttp.open("GET", "http://192.168.1.196:8090/api/v1/doors/can-open?door=B0BE8349D36E&keycode=B177B700A2000000", true);
+		xmlhttp.send();
+	}
+	
+	
+</script>
+</body>
+</html>
