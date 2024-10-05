@@ -1,14 +1,13 @@
 package it.markreds.accessdemo.controller;
 
 import it.markreds.accessdemo.domain.Person;
-import it.markreds.accessdemo.exception.PersonNotFoundException;
-import it.markreds.accessdemo.repository.PersonRepository;
 import it.markreds.accessdemo.service.PersonService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1/people")
 class PersonController {
     private final PersonService service;
 
@@ -16,28 +15,28 @@ class PersonController {
         this.service = service;
     }
 
-    @GetMapping("/api/v1/people")
+    @GetMapping
     List<Person> all() {
         return service.findAll();
     }
 
-    @PostMapping("/api/v1/people")
-    Person newPerson(@RequestBody Person person) {
-        return service.create(person);
-    }
-
-    @GetMapping("/api/v1/people/{id}")
+    @GetMapping("/{id}")
     Person one(@PathVariable Long id) {
         return service.findOne(id);
     }
 
-    @PutMapping("/api/v1/people/{id}")
-    Person replacePerson(@RequestBody Person person, @PathVariable Long id) {
+    @PostMapping
+    Person create(@RequestBody Person person) {
+        return service.create(person);
+    }
+
+    @PutMapping("/{id}")
+    Person update(@RequestBody Person person, @PathVariable Long id) {
         return service.upsert(person, id);
     }
 
-    @DeleteMapping("/api/v1/people/{id}")
-    void deletePerson(@PathVariable Long id) {
+    @DeleteMapping("/{id}")
+    void delete(@PathVariable Long id) {
         service.delete(id);
     }
 }
