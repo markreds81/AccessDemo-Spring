@@ -16,11 +16,11 @@ import org.springframework.util.StringUtils;
 @Route(value = "doors", layout = MainLayout.class)
 @PageTitle("Doors | Access Demo")
 public class DoorView extends VerticalLayout {
+    final Grid<Door> grid;
+    final TextField filter;
     private final DoorRepository repository;
     private final DoorEditor editor;
     private final Button addNewButton;
-    final Grid<Door> grid;
-    final TextField filter;
 
     public DoorView(DoorRepository repository, DoorEditor editor) {
         this.repository = repository;
@@ -46,7 +46,7 @@ public class DoorView extends VerticalLayout {
 
         grid.asSingleSelect().addValueChangeListener(e -> editor.editDoor(e.getValue()));
 
-        addNewButton.addClickListener(event -> editor.editDoor(new Door("")));
+        addNewButton.addClickListener(event -> editor.editDoor(new Door()));
 
         editor.setChangeHandler(() -> {
             editor.setVisible(false);

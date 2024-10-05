@@ -12,8 +12,6 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import it.markreds.accessdemo.domain.Person;
 import it.markreds.accessdemo.repository.PersonRepository;
-import it.markreds.accessdemo.view.MainLayout;
-import it.markreds.accessdemo.view.PersonEditor;
 import org.springframework.util.StringUtils;
 
 import java.util.Comparator;
@@ -21,11 +19,11 @@ import java.util.Comparator;
 @Route(value = "people", layout = MainLayout.class)
 @PageTitle("People | Access Demo")
 public class PersonView extends VerticalLayout {
+    final Grid<Person> grid;
+    final TextField filter;
     private final PersonRepository repository;
     private final PersonEditor editor;
     private final Button addNewButton;
-    final Grid<Person> grid;
-    final TextField filter;
 
     public PersonView(PersonRepository repository, PersonEditor editor) {
         this.repository = repository;
@@ -45,16 +43,16 @@ public class PersonView extends VerticalLayout {
         grid.setColumns("id", "firstName", "lastName", "keyCode");
         grid.getColumnByKey("id").setWidth("150px").setFlexGrow(0);
         grid.addComponentColumn((item) -> {
-            Icon icon;
-            if (item.isEnabled()) {
-                icon = VaadinIcon.CHECK.create();
-                icon.setColor("green");
-            } else {
-                icon = VaadinIcon.CLOSE.create();
-                icon.setColor("red");
-            }
-            return icon;
-        })
+                    Icon icon;
+                    if (item.isEnabled()) {
+                        icon = VaadinIcon.CHECK.create();
+                        icon.setColor("green");
+                    } else {
+                        icon = VaadinIcon.CLOSE.create();
+                        icon.setColor("red");
+                    }
+                    return icon;
+                })
                 .setKey("enabled")
                 .setHeader("Enabled")
                 .setComparator(Comparator.comparing(Person::isEnabled));
@@ -65,7 +63,7 @@ public class PersonView extends VerticalLayout {
 
         grid.asSingleSelect().addValueChangeListener(e -> editor.editPerson(e.getValue()));
 
-        addNewButton.addClickListener(event -> editor.editPerson(new Person("", "")));
+        addNewButton.addClickListener(event -> editor.editPerson(new Person()));
 
         editor.setChangeHandler(() -> {
             editor.setVisible(false);

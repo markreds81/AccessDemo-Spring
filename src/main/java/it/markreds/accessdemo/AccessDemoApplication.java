@@ -23,17 +23,18 @@ public class AccessDemoApplication {
     public CommandLineRunner populateDoors(DoorRepository repository) {
         return (args -> {
             if (repository.count() == 0) {
-                LOG.info("Preloading " + repository.save(new Door("Ingresso principale", "B0BE8349D36E", 2)));
-                LOG.info("Preloading " + repository.save(new Door("Serranda", "368ABCF07480", 5)));
+                LOG.info("Preloading " + repository.save(new Door().setDisplayName("Ingresso principale").setMacAddress("B0BE8349D36E").setWorkTime(2)));
+                LOG.info("Preloading " + repository.save(new Door().setDisplayName("Serranda").setMacAddress("368ABCF07480").setWorkTime(5)));
             }
         });
     }
+
     @Bean
     public CommandLineRunner populateUsers(PersonRepository repository) {
         return (args -> {
             if (repository.count() == 0) {
-                LOG.info("Preloading " + repository.save(new Person("Marco", "Rossi", "B177B700A2000000")));
-                LOG.info("Preloading " + repository.save(new Person("Elisa", "Neri", "9340D7008F000000")));
+                LOG.info("Preloading " + repository.save(new Person().setFirstName("Marco").setLastName("Rossi").setKeyCode("B177B700A2000000")));
+                LOG.info("Preloading " + repository.save(new Person().setFirstName("Elisa").setLastName("Neri").setKeyCode("9340D7008F000000")));
             }
         });
     }
